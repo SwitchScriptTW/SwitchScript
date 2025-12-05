@@ -381,7 +381,7 @@ download_github_release "masagrator/ReverseNX-RT" "ReverseNX-RT-ovl.ovl" "Revers
 download_github_release "averne/MasterVolume" "*.zip" "MasterVolume.zip" "./" "MasterVolume" || { echo "::error::❌ MasterVolume failed"; exit 1; }
 download_github_release "masagrator/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
 download_github_release "TOM-BadEN/KeyX" "KeyX-*-CN.zip" "KeyX.zip" "./" "KeyX" || { echo "::error::❌ KeyX failed"; exit 1; }
-download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/在线下载金手指-2.2.5 星落 酸菜鱼 HAHA.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5 星落 酸菜鱼 HAHA" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/在线下载金手指-2.2.5%20星落%20酸菜鱼%20HAHA.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5 星落 酸菜鱼 HAHA" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
 
 download_direct_file "https://github.com/masagrator/FPSLocker-Warehouse/archive/refs/heads/v4.zip" "FPSLocker-Warehouse-4.zip" "./" "FPSLocker-Warehouse" || { echo "::error::❌ FPSLocker-Warehouse direct download failed"; exit 1; }
 # 解压并清理 FPSLocker-Warehouse (全解压到根目录并清理)
