@@ -5,6 +5,7 @@ set -e
 ### 脚本由 Fraxalotl 创建
 ### 由 huangqian8 修改
 ### 由 xiaobai 修改
+### 由 david082321 修改
 
 # -------------------------------------------
 
@@ -230,7 +231,10 @@ cd SwitchSD
 # Now replace the existing download blocks with calls to the functions
 
 # 下载logo.zip
-download_direct_file "https://raw.githubusercontent.com/Zhuwenxue2002/SwitchPlugins/main/theme/logo.zip" "logo.zip" "./" "logo" || exit 1
+download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/theme/logo.zip" "logo.zip" "./" "logo" || exit 1
+
+# 下载 autoThemedelete
+download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/plugins/autoThemedelete.zip" "autoThemedelete.zip" "./" "autoThemedelete" || exit 1
 
 # 新增：解压并清理
 if [ -f "logo.zip" ]; then
@@ -240,6 +244,13 @@ if [ -f "logo.zip" ]; then
     }
     echo "::notice::✅ logo.zip extracted and removed"
 fi
+if [ -f "autoThemedelete.zip" ]; then
+    unzip -oq autoThemedelete.zip && rm autoThemedelete.zip || {
+        echo "::error::❌ Failed to unzip autoThemedelete.zip"
+        exit 1
+    }
+    echo "::notice::✅ autoThemedelete.zip extracted and removed"
+fi
 
 # Fetch latest atmosphere
 download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./" "Atmosphere" || { echo "Atmosphere processing failed. Exiting."; exit 1; }
@@ -248,7 +259,7 @@ download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./"
 download_github_release "Atmosphere-NX/Atmosphere" "fusee.bin" "fusee.bin" "" "fusee.bin" || { echo "fusee.bin processing failed. Exiting."; exit 1; }
 
 # Fetch latest hekate (EasyWorld大佬的汉化版本)
-download_github_release "easyworld/hekate" "*_sc.zip" "hekate.zip" "./" "Hekate + Nyx" || { echo "Hekate + Nyx processing failed. Exiting."; exit 1; }
+download_github_release "easyworld/hekate" "*_tc.zip" "hekate.zip" "./" "Hekate + Nyx" || { echo "Hekate + Nyx processing failed. Exiting."; exit 1; }
 
 # Fetch latest Lockpick_RCM
 # This one requires extracting a specific .bin file from the zip
@@ -379,7 +390,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=系统补丁
+custom_name=系統補丁
 custom_version=
 
 [sys-clk-overlay.ovl]
@@ -388,7 +399,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=系统超频
+custom_name=系統超頻
 custom_version=
 
 [FPSLocker.ovl]
@@ -397,7 +408,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=FPS补丁
+custom_name=FPS補丁
 custom_version=
 
 [EdiZon.ovl]
@@ -415,7 +426,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=系统模块
+custom_name=系統模組
 custom_version=
 
 [QuickNTP.ovl]
@@ -424,7 +435,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=时间校准
+custom_name=時間校準
 custom_version=
 
 [Status-Monitor-Overlay.ovl]
@@ -433,7 +444,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=状态监视
+custom_name=狀態監視
 custom_version=
 
 [ReverseNX-RT-ovl.ovl]
@@ -451,7 +462,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=音量调节
+custom_name=音量調節
 custom_version=
 
 [ldn_mitm.ovl]
@@ -460,7 +471,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=联机补丁
+custom_name=連線補丁
 custom_version=
 
 [Fizeau.ovl]
@@ -469,7 +480,7 @@ star=false
 hide=false
 use_launch_args=false
 launch_args=
-custom_name=色彩调节
+custom_name=色彩調節
 custom_version=
 ENDOFFILE
 
@@ -505,7 +516,7 @@ bootprotect=0
 icon=bootloader/res/icon_ams.bmp
 payload=bootloader/payloads/fusee.bin
 
-[CFW (emuMMC)]
+[虛擬系統]
 emummcforce=1
 fss0=atmosphere/package3
 atmosphere=1
@@ -513,7 +524,7 @@ icon=bootloader/res/icon_Atmosphere_emunand.bmp
 id=cfw-emu
 kip1=atmosphere/kips/loader.kip
 
-[CFW (sysMMC)]
+[真實系統]
 emummc_force_disable=1
 fss0=atmosphere/package3
 atmosphere=1
@@ -521,12 +532,27 @@ icon=bootloader/res/icon_Atmosphere_sysnand.bmp
 id=cfw-sys
 kip1=atmosphere/kips/loader.kip
 
-[Stock SysNAND]
+[正版系統]
 emummc_force_disable=1
 fss0=atmosphere/package3
 icon=bootloader/res/icon_stock.bmp
 stock=1
 id=ofw-sys
+ENDOFFILE
+
+# 3. payloads.ini (启动项配置)
+cat > ./bootloader/ini/payloads.ini << 'ENDOFFILE'
+[金鑰提取]
+payload=bootloader/payloads/Lockpick_RCM.bin
+icon=bootloader/res/icon_lockpick.bmp
+
+[文件管理]
+payload=bootloader/payloads/TegraExplorer.bin
+icon=bootloader/res/img_tegraexplorer.bmp
+
+[刪除主題]
+payload=bootloader/payloads/autoThemedelete.bin
+icon=bootloader/res/deletetheme.bmp
 ENDOFFILE
 
 ### Rename hekate_ctcaer_*.bin to payload.bin
@@ -580,7 +606,7 @@ cat > ./atmosphere/config/override_config.ini << 'ENDOFFILE'
 [hbl_config]
 program_id_0=010000000000100D
 override_address_space=39_bit
-; 按住R键点击相册进入HBL自制软件界面
+; 按住R鍵點擊相冊進入HBL自製軟體介面
 override_key_0=R
 ENDOFFILE
 
