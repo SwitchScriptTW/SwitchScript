@@ -31,6 +31,7 @@ glob_to_regex() {
 # $5: 包含在 description.txt 中的名称（可选，默认为仓库名称）
 # $6: 从 zip 中提取的特定文件名（可选，用于提取单个文件如 .nro 或 .bin）
 # $7: 提取文件的目标目录（可选，与 $6 一起使用）
+# $8: 是否下載最新 Pre-release（可选，false / true / only）
 download_github_release() {
     local repo="$1"
     local asset_pattern="$2"
@@ -39,6 +40,7 @@ download_github_release() {
     local description_name="${5:-$repo}"
     local specific_file="$6"
     local specific_file_dest="$7"
+    local include_prerelease="${8:-false}"
 
     # 将 glob 模式转换为正则表达式
     glob_to_regex() {
@@ -54,16 +56,17 @@ download_github_release() {
     echo "Fetching latest release info for $repo..."
 
     # 单次 API 请求，分离响应头和 JSON 体
-    response=$(curl -sL -i -H "Accept: application/vnd.github+json" \
+    local response=$(curl -sL -i \
+        -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "https://api.github.com/repos/$repo/releases/latest")
     
     # 提取 HTTP 状态码（兼容重定向）
-    http_status=$(echo "$response" | grep -oP '(^HTTP/\d\.\d |^HTTP\/2 )\K\d{3}' | tail -n 1)
+    local http_status=$(echo "$response" | grep -oP '(^HTTP/\d\.\d |^HTTP\/2 )\K\d{3}' | tail -n 1)
     # 提取速率限制
-    rate_remaining=$(echo "$response" | grep -i "x-ratelimit-remaining:" | grep -oP '\d+' | head -n 1)
+    local rate_remaining=$(echo "$response" | grep -i "x-ratelimit-remaining:" | grep -oP '\d+' | head -n 1)
     # 提取 JSON 响应体（从最后一个空行后开始）
-    release_info=$(echo "$response" | awk 'NR>1 && /^\r?$/{body=1; next} body')
+    local release_info=$(echo "$response" | awk 'NR>1 && /^\r?$/{body=1; next} body')
 
     # 检查 HTTP 状态码
     if [[ -z "$http_status" ]] || [ "$http_status" -ne 200 ]; then
@@ -76,15 +79,35 @@ download_github_release() {
         echo "::warning::⚠️ GitHub API rate limit is low ($rate_remaining remaining)"
     fi
 
+    # 根據 include_prerelease 選取合適的 release
+    case "$include_prerelease" in
+        false)
+            # 僅正式版
+            release_info=$(echo "$release_info" | jq -c '[.[] | select(.prerelease == false)][0]')
+            ;;
+        true)
+            # 有 pre-release 就挑最新，沒有就用正式版
+            release_info=$(echo "$release_info" | jq -c '[.[]][0]')
+            ;;
+        only)
+            # 僅 pre-release
+            release_info=$(echo "$release_info" | jq -c '[.[] | select(.prerelease == true)][0]')
+            ;;
+        *)
+            echo "::warning::⚠️ Invalid include_prerelease value: $include_prerelease"
+            release=$(echo "$release_info" | jq -c '[.[]][0]')
+            ;;
+    esac
+
     # 验证 JSON 响应
-    if ! echo "$release_info" | jq -e . > /dev/null 2>&1; then
-        echo "::error::❌ Invalid JSON response for $repo"
+    if [[ "$release" == "null" || -z "$release" ]]; then
+        echo "::error::❌ No matching release found (include_prerelease=$include_prerelease)"
         return 1
     fi
 
     # 提取发布名称和下载 URL
-    release_name=$(echo "$release_info" | jq -r '.name // .tag_name // empty')
-    download_url=$(echo "$release_info" | jq --arg regex "$regex_pattern" -r \
+    local release_name=$(echo "$release_info" | jq -r '.name // .tag_name // empty')
+    local download_url=$(echo "$release_info" | jq --arg regex "$regex_pattern" -r \
         '.assets[]? | select(.name? | test($regex)) | .browser_download_url' | head -n 1)
 
     if [ -z "$release_name" ]; then
@@ -254,10 +277,10 @@ if [ -f "autoThemedelete.zip" ]; then
 fi
 
 # Fetch latest atmosphere
-download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./" "Atmosphere" || { echo "Atmosphere processing failed. Exiting."; exit 1; }
+download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./" "Atmosphere" "" "" true || { echo "Atmosphere processing failed. Exiting."; exit 1; }
 
 # Fetch latest fusee.bin
-download_github_release "Atmosphere-NX/Atmosphere" "fusee.bin" "fusee.bin" "" "fusee.bin" || { echo "fusee.bin processing failed. Exiting."; exit 1; }
+download_github_release "Atmosphere-NX/Atmosphere" "fusee.bin" "fusee.bin" "" "fusee.bin" "" "" true || { echo "fusee.bin processing failed. Exiting."; exit 1; }
 
 # Fetch latest hekate (EasyWorld大佬的汉化版本)
 download_github_release "easyworld/hekate" "*_tc.zip" "hekate.zip" "./" "Hekate + Nyx" || { echo "Hekate + Nyx processing failed. Exiting."; exit 1; }
