@@ -249,6 +249,7 @@ mkdir -p ./SwitchSD/switch
 mkdir -p ./SwitchSD/atmosphere/contents
 mkdir -p ./SwitchSD/config/sys-con
 mkdir -p ./SwitchSD/config/MissionControl
+mkdir -p ./SwitchSD/config/sphaira
 
 cd SwitchSD
 
