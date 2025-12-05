@@ -21,11 +21,11 @@
 
 # 大气层个人整合包生成脚本
 
-**_支持系统版本：20.5.0_**
+**_支持系统版本：20.0.1_**
 
-**_支持大气层版本：1.9.5_**
+**_支持大气层版本：1.10.0_**
 
-**_支持hekate版本：6.3.1_**
+**_支持hekate版本：6.4.1_**
 
 - 此项目脚本fork自[huangqian8/SwitchScript: 大气层个人整合包生成脚本 (github.com)](https://github.com/huangqian8/SwitchScript)，由xiaobai进行精简
 
@@ -45,7 +45,9 @@
   - Payload插件
     - [x] 主机系统的密钥提取工具 `Lockpick_RCM` [From Here](https://github.com/Decscots/Lockpick_RCM/releases/latest)
     - [x] Hekate下的文件管理工具 `TegraExplorer` [From Here](https://github.com/zdm65477730/TegraExplorer/releases/latest)
+    - [x] Hekate下的刪除主題文件防卡死 `autoThemedelete` [From Here](https://www.bilibili.com/video/BV1Qc32ztESd/)
   - Nro插件
+    - [x] 另一個 homebrew menu `sphaira` [From Here](https://github.com/ITotalJustice/sphaira/releases/latest)
     - [x] 联网检测是否屏蔽任天堂服务器 `Switch_90DNS_tester.nro` [From Here](https://github.com/meganukebmp/Switch_90DNS_tester/releases/latest)
     - [x] 游戏安装，存档管理和文件传输工具 `DBI` [From Here](https://github.com/rashevskyv/dbi/releases/latest)
     - [x] 游戏安装和文件传输工具 `Awoo Installer` [From Here](https://github.com/dragonflylee/Awoo-Installer/releases/latest)
@@ -68,14 +70,16 @@
     - [x] 初始菜单 `Ultrahand` [From Here](https://github.com/ppkantorski/Ultrahand-Overlay)
   - Ovl插件
     - [x] 金手指工具 `EdiZon` [From Here](https://www.tekqart.com/thread-222735-1-1.html)
+    - [x] 線上金手指工具 `EdiZon-DL` [From Here](https://www.bilibili.com/video/BV1bVk2BEEuT/)
     - [x] 系统模块 `ovl-sysmodules` [From Here](https://www.tekqart.com/thread-222735-1-1.html)
     - [x] 系统监视 `StatusMonitor` [From Here](https://www.cnblogs.com/we1zard/articles/18462162)
-    - [x] 系统超频  `sys-clk`[From Here](https://github.com/halop/OC_Toolkit_SC_EOS)
+    - [x] 系统超频 `sys-clk`[From Here](https://github.com/halop/OC_Toolkit_SC_EOS)
     - [x] 掌机底座模式切换 `ReverseNX-RT` [From Here](https://www.tekqart.com/thread-222735-1-1.html)
     - [x] 时间同步 `QuickNTP` [From Here](https://www.tekqart.com/thread-222735-1-1.html)
     - [x] 系统补丁 `sys-patch` [From Here](https://github.com/borntohonk/sys-patch)
     - [x] 联机补丁 `ldn_mitm` [From Here](https://github.com/DefenderOfHyrule/ldn_mitm)
     - [x] 音量调节 `MasterVolume` [From Here](https://github.com/averne/MasterVolume)
+    - [x] 按鍵助手 `KeyX` [From Here](https://github.com/TOM-BadEN/KeyX)
 - 文件操作：
   - [x] 移动 `fusee.bin` 至 `bootloader/payloads` 文件夹
   - [x] 将 `hekate_ctcaer_*.bin` 重命名为 `payload.bin`
