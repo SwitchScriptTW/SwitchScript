@@ -221,6 +221,7 @@ mkdir -p ./SwitchSD/atmosphere/config
 mkdir -p ./SwitchSD/atmosphere/hosts
 mkdir -p ./SwitchSD/config/tesla
 mkdir -p ./SwitchSD/bootloader/payloads
+mkdir -p ./SwitchSD/bootloader/ini
 mkdir -p ./SwitchSD/switch
 mkdir -p ./SwitchSD/atmosphere/contents
 mkdir -p ./SwitchSD/config/sys-con
