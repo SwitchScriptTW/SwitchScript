@@ -293,6 +293,9 @@ download_github_release "impeeza/Lockpick_RCMDecScots" "*.zip" "Lockpick_RCM.zip
 # This one downloads a .bin file directly
 download_github_release "suchmememanyskill/TegraExplorer" "*.bin" "TegraExplorer.bin" "" "TegraExplorer" || { echo "TegraExplorer processing failed. Exiting."; exit 1; }
 
+# Fetch lastest sphaira (downloads a .zip)
+download_github_release "ITotalJustice/sphaira" "sphaira.zip" "sphaira.zip" "./" "sphaira" || { echo "sphaira processing failed. Exiting."; exit 1; }
+
 # Fetch latest 90DNS tester (downloads a .nro)
 download_github_release "meganukebmp/Switch_90DNS_tester" "*.nro" "Switch_90DNS_tester.nro" "./switch/Switch_90DNS_tester" "Switch_90DNS_tester" || { echo "Switch_90DNS_tester processing failed. Exiting."; exit 1; }
 
@@ -315,7 +318,7 @@ download_github_release "J-D-K/JKSV" "*.nro" "JKSV.nro" "./switch/JKSV" "JKSV" |
 download_github_release "HamletDuFromage/aio-switch-updater" "*.zip" "aio-switch-updater.zip" "./" "aio-switch-updater" || { echo "aio-switch-updater processing failed. Exiting."; exit 1; }
 
 # Fetch latest wiliwili (downloads a .zip, needs specific file extraction)
-download_github_release "xfangfang/wiliwili" "*NintendoSwitch.zip" "wiliwili-NintendoSwitch.zip" "" "wiliwili" "wiliwili/wiliwili.nro" "./switch/wiliwili" || { echo "wiliwili processing failed. Exiting."; exit 1; }
+download_github_release "xfangfang/wiliwili" "*NintendoSwitch.zip" "wiliwili-NintendoSwitch.zip" "" "wiliwili" "wiliwili/wiliwili.nro" "./switch" || { echo "wiliwili processing failed. Exiting."; exit 1; }
 
 # Fetch latest SimpleModDownloader (downloads a .nro)
 download_github_release "PoloNX/SimpleModDownloader" "*.nro" "SimpleModDownloader.nro" "./switch/SimpleModDownloader" "SimpleModDownloader" || { echo "SimpleModDownloader processing failed. Exiting."; exit 1; }
@@ -402,11 +405,15 @@ if [ -f "Status-Monitor-Overlay.zip" ]; then
     echo "::notice::✅ Status-Monitor-Overlay installed"
 fi
 
+# 4. 繁體中文翻譯
+# 下載語言
+download_github_release "SwitchScriptTW/SwitchPluginsLang" "lang.zip" "lang.zip" "./" "" || { echo "::error::❌ SwitchPluginsLang processing failed"; exit 1; }
+
 # ======================
 # 新增配置文件生成
 # ======================
 
-# 1. overlays.ini (特斯拉插件配置)
+# 1-1. overlays.ini (特斯拉插件配置)
 cat > ./config/ultrahand/overlays.ini << 'ENDOFFILE'
 [sys-patch-overlay.ovl]
 priority=20
@@ -508,6 +515,17 @@ custom_name=色彩調節
 custom_version=
 ENDOFFILE
 
+# 1-2. config.ini (特斯拉插件配置)
+cat > ./config/ultrahand/config.ini << 'ENDOFFILE'
+[ultrahand]
+default_lang=zh-tw
+hide_battery=false
+hide_clock=false
+hide_delete=false
+hide_hidden=false
+datetime_format='%a %T'
+ENDOFFILE
+
 # 2. exosphere.ini (隐身模式)
 cat > ./exosphere.ini << 'ENDOFFILE'
 [exosphere]
@@ -536,9 +554,12 @@ autonogc=1
 updater2p=0
 bootprotect=0
 
-[Fusee]
-icon=bootloader/res/icon_ams.bmp
-payload=bootloader/payloads/fusee.bin
+[正版系統]
+emummc_force_disable=1
+fss0=atmosphere/package3
+icon=bootloader/res/icon_stock.bmp
+stock=1
+id=ofw-sys
 
 [虛擬系統]
 emummcforce=1
@@ -556,12 +577,9 @@ icon=bootloader/res/icon_Atmosphere_sysnand.bmp
 id=cfw-sys
 kip1=atmosphere/kips/loader.kip
 
-[正版系統]
-emummc_force_disable=1
-fss0=atmosphere/package3
-icon=bootloader/res/icon_stock.bmp
-stock=1
-id=ofw-sys
+[Fusee]
+icon=bootloader/res/icon_ams.bmp
+payload=bootloader/payloads/fusee.bin
 ENDOFFILE
 
 # 3. payloads.ini (启动项配置)
@@ -570,7 +588,7 @@ cat > ./bootloader/ini/payloads.ini << 'ENDOFFILE'
 payload=bootloader/payloads/Lockpick_RCM.bin
 icon=bootloader/res/icon_lockpick.bmp
 
-[文件管理]
+[檔案管理]
 payload=bootloader/payloads/TegraExplorer.bin
 icon=bootloader/res/img_tegraexplorer.bmp
 
@@ -578,6 +596,33 @@ icon=bootloader/res/img_tegraexplorer.bmp
 payload=bootloader/payloads/autoThemedelete.bin
 icon=bootloader/res/deletetheme.bmp
 ENDOFFILE
+
+# 3. nyx.ini (启动项配置)
+cat > ./bootloader/nyx.ini << 'ENDOFFILE'
+[config]
+themebg=0
+themecolor=187
+entries5col=0
+timeoff=1
+homescreen=2
+verification=1
+password=0
+umsemmcrw=0
+jcdisable=0
+jcforceright=0
+bpmpclock=1
+safeui=0
+ENDOFFILE
+
+# 4-1. config.ini (sphaira 配置)
+cat > ./config/sphaira/config.ini << 'ENDOFFILE'
+[config]
+language=12
+ENDOFFILE
+
+# 4-2. hbmenu 替換 sphaira
+mv ./hbmenu.nro ./switch/hbmenu.nro
+cp ./switch/sphaira/sphaira.nro ./hbmenu.nro
 
 ### Rename hekate_ctcaer_*.bin to payload.bin
 found_files=$(find . -name "hekate_ctcaer_*.bin" -print -quit)
@@ -630,8 +675,7 @@ cat > ./atmosphere/config/override_config.ini << 'ENDOFFILE'
 [hbl_config]
 program_id_0=010000000000100D
 override_address_space=39_bit
-; 按住R鍵點擊相冊進入HBL自製軟體介面
-override_key_0=R
+override_key_0=!R
 ENDOFFILE
 
 # 5. host文件生成
