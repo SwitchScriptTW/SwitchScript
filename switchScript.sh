@@ -31,7 +31,7 @@ glob_to_regex() {
 # $5: 包含在 description.txt 中的名称（可选，默认为仓库名称）
 # $6: 从 zip 中提取的特定文件名（可选，用于提取单个文件如 .nro 或 .bin）
 # $7: 提取文件的目标目录（可选，与 $6 一起使用）
-# $8: 是否下載最新 Pre-release（可选，false / true / only）
+# $8: 是否下載最新 Pre-release（可選，false / true / only）
 download_github_release() {
     local repo="$1"
     local asset_pattern="$2"
@@ -40,7 +40,7 @@ download_github_release() {
     local description_name="${5:-$repo}"
     local specific_file="$6"
     local specific_file_dest="$7"
-    local include_prerelease="${8:-false}"
+    local include_prerelease="${8:-true}"
 
     # 将 glob 模式转换为正则表达式
     glob_to_regex() {
@@ -59,7 +59,7 @@ download_github_release() {
     local response=$(curl -sL -i \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        "https://api.github.com/repos/$repo/releases/latest")
+        "https://api.github.com/repos/$repo/releases")
     
     # 提取 HTTP 状态码（兼容重定向）
     local http_status=$(echo "$response" | grep -oP '(^HTTP/\d\.\d |^HTTP\/2 )\K\d{3}' | tail -n 1)
@@ -79,7 +79,7 @@ download_github_release() {
         echo "::warning::⚠️ GitHub API rate limit is low ($rate_remaining remaining)"
     fi
 
-    # 根據 include_prerelease 選取合適的 release
+    # 根據 include_prerelease 選出合適 release
     case "$include_prerelease" in
         false)
             # 僅正式版
@@ -87,7 +87,7 @@ download_github_release() {
             ;;
         true)
             # 有 pre-release 就挑最新，沒有就用正式版
-            release_info=$(echo "$release_info" | jq -c '[.[]][0]')
+            release_info=$(echo "$release_info" | jq -c '.[0]')
             ;;
         only)
             # 僅 pre-release
@@ -95,12 +95,12 @@ download_github_release() {
             ;;
         *)
             echo "::warning::⚠️ Invalid include_prerelease value: $include_prerelease"
-            release=$(echo "$release_info" | jq -c '[.[]][0]')
+            release_info=$(echo "$release_info" | jq -c '.[0]')
             ;;
     esac
 
     # 验证 JSON 响应
-    if [[ "$release" == "null" || -z "$release" ]]; then
+    if [[ "$release_info" == "null" || -z "$release_info" ]]; then
         echo "::error::❌ No matching release found (include_prerelease=$include_prerelease)"
         return 1
     fi
@@ -255,10 +255,10 @@ cd SwitchSD
 # Now replace the existing download blocks with calls to the functions
 
 # 下载logo.zip
-download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/theme/logo.zip" "logo.zip" "./" "logo" || exit 1
+download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/theme/logo.zip" "logo.zip" "./" "" || exit 1
 
 # 下载 autoThemedelete
-download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/plugins/autoThemedelete.zip" "autoThemedelete.zip" "./" "autoThemedelete" || exit 1
+download_direct_file "https://raw.githubusercontent.com/SwitchScriptTW/SwitchPlugins/main/plugins/autoThemedelete.zip" "autoThemedelete.zip" "./" "" || exit 1
 
 # 新增：解压并清理
 if [ -f "logo.zip" ]; then
@@ -277,10 +277,10 @@ if [ -f "autoThemedelete.zip" ]; then
 fi
 
 # Fetch latest atmosphere
-download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./" "Atmosphere" "" "" true || { echo "Atmosphere processing failed. Exiting."; exit 1; }
+download_github_release "Atmosphere-NX/Atmosphere" "*.zip" "atmosphere.zip" "./" "Atmosphere" || { echo "Atmosphere processing failed. Exiting."; exit 1; }
 
 # Fetch latest fusee.bin
-download_github_release "Atmosphere-NX/Atmosphere" "fusee.bin" "fusee.bin" "" "fusee.bin" "" "" true || { echo "fusee.bin processing failed. Exiting."; exit 1; }
+download_github_release "Atmosphere-NX/Atmosphere" "fusee.bin" "fusee.bin" "" "fusee.bin" || { echo "fusee.bin processing failed. Exiting."; exit 1; }
 
 # Fetch latest hekate (EasyWorld大佬的汉化版本)
 download_github_release "easyworld/hekate" "*_tc.zip" "hekate.zip" "./" "Hekate + Nyx" || { echo "Hekate + Nyx processing failed. Exiting."; exit 1; }
