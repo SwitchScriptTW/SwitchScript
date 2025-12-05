@@ -301,7 +301,8 @@ download_github_release "ITotalJustice/sphaira" "sphaira.zip" "sphaira.zip" "./"
 download_github_release "meganukebmp/Switch_90DNS_tester" "*.nro" "Switch_90DNS_tester.nro" "./switch/Switch_90DNS_tester" "Switch_90DNS_tester" || { echo "Switch_90DNS_tester processing failed. Exiting."; exit 1; }
 
 # Fetch latest DBI (downloads a .nro)
-download_github_release "rashevskyv/dbi" "*.nro" "DBI.nro" "./switch/DBI" "DBI" || { echo "DBI processing failed. Exiting."; exit 1; }
+# download_github_release "rashevskyv/dbi" "*.nro" "DBI.nro" "./switch/DBI" "DBI" || { echo "DBI processing failed. Exiting."; exit 1; }
+download_github_release "sskyNS/DBIPatcher" "DBI.845.zhtw.nro" "DBI.nro" "./switch/DBI" "DBI" || { echo "DBI processing failed. Exiting."; exit 1; }
 
 # Fetch latest Awoo Installer (downloads a .zip)
 download_github_release "Huntereb/Awoo-Installer" "*.zip" "Awoo-Installer.zip" "./" "Awoo Installer" || { echo "Awoo Installer processing failed. Exiting."; exit 1; }
@@ -378,6 +379,9 @@ download_github_release "masagrator/FPSLocker" "FPSLocker.ovl" "FPSLocker.ovl" "
 download_github_release "masagrator/ReverseNX-RT" "ReverseNX-RT-ovl.ovl" "ReverseNX-RT-ovl.ovl" "./switch/.overlays" "ReverseNX-RT" || { echo "::error::❌ ReverseNX-RT-ovl.ovl download failed"; exit 1; }
 #download_github_release "zdm65477730/Fizeau" "*.zip" "Fizeau.zip" "./" "Fizeau" || { echo "::error::❌ Fizeau failed"; exit 1; }
 download_github_release "averne/MasterVolume" "*.zip" "MasterVolume.zip" "./" "MasterVolume" || { echo "::error::❌ MasterVolume failed"; exit 1; }
+download_github_release "masagrator/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
+download_github_release "TOM-BadEN/KeyX" "KeyX-*-CN.zip" "KeyX.zip" "./" "KeyX" || { echo "::error::❌ KeyX failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/在线下载金手指-2.2.5 星落 酸菜鱼 HAHA.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5 星落 酸菜鱼 HAHA" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
 
 download_direct_file "https://github.com/masagrator/FPSLocker-Warehouse/archive/refs/heads/v4.zip" "FPSLocker-Warehouse-4.zip" "./" "FPSLocker-Warehouse" || { echo "::error::❌ FPSLocker-Warehouse direct download failed"; exit 1; }
 # 解压并清理 FPSLocker-Warehouse (全解压到根目录并清理)
@@ -393,17 +397,6 @@ if [ -f "FPSLocker-Warehouse-4.zip" ]; then
         echo "::error::❌ Failed to extract FPSLocker-Warehouse-4.zip to root directory."
         exit 1
     fi
-fi
-
-download_direct_file "https://github.com/wei2ard/AutoFetch/releases/download/latest/Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
-# 解压并清理
-if [ -f "Status-Monitor-Overlay.zip" ]; then
-    unzip -oq Status-Monitor-Overlay.zip -d ./ && \
-    rm Status-Monitor-Overlay.zip || {
-        echo "::error::❌ Failed to process Status-Monitor-Overlay"
-        exit 1
-    }
-    echo "::notice::✅ Status-Monitor-Overlay installed"
 fi
 
 # 4. 繁體中文翻譯
@@ -446,10 +439,19 @@ custom_version=
 [EdiZon.ovl]
 priority=20
 star=false
-hide=false
+hide=true
 use_launch_args=false
 launch_args=
 custom_name=金手指
+custom_version=
+
+[ovlEdiZon.ovl]
+priority=20
+star=false
+hide=true
+use_launch_args=false
+launch_args=
+custom_name=線上金手指
 custom_version=
 
 [ovl-sysmodules.ovl]
@@ -491,7 +493,7 @@ custom_version=
 [MasterVolume.ovl]
 priority=20
 star=false
-hide=false
+hide=true
 use_launch_args=false
 launch_args=
 custom_name=音量調節
@@ -513,6 +515,15 @@ hide=false
 use_launch_args=false
 launch_args=
 custom_name=色彩調節
+custom_version=
+
+[ovl-KeyX.ovl]
+priority=20
+star=false
+hide=false
+use_launch_args=false
+launch_args=
+custom_name=按鍵助手
 custom_version=
 ENDOFFILE
 
@@ -678,6 +689,10 @@ program_id_0=010000000000100D
 override_address_space=39_bit
 override_key_0=!R
 ENDOFFILE
+
+# Edizon-DL 語言
+mkdir -p ./config/Edizon-DL
+touch ./config/Edizon-DL/TC.flag
 
 # 5. host文件生成
 mkdir -p ./atmosphere/hosts
