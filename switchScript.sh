@@ -368,7 +368,6 @@ download_github_release "halop/OC_Toolkit_SC_EOS" "sys-clk.zip" "sys-clk.zip" ".
 download_github_release "ppkantorski/Ultrahand-Overlay" "ovlmenu.ovl" "ovlmenu.ovl" "./switch/.overlays" "Ultrahand" || { echo "::error::❌ Ultrahand menu failed"; exit 1; }
 download_github_release "ppkantorski/Ultrahand-Overlay" "lang.zip" "lang.zip" "./config/ultrahand/lang" "Ultrahand Lang" || { echo "::error::❌ Language pack failed"; exit 1; }
 download_github_release "zdm65477730/sys-patch" "*.zip" "sys-patch.zip" "./" "Sys-Patch" || { echo "::error::❌ Sys-Patch processing failed"; exit 1; }
-download_github_release "SwitchScriptTW/SCY-Toolbox" "SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "酸菜鱼工具箱" || { echo "::error::❌ SCY-Toolbox processing failed"; exit 1; }
 
 # 3. 系统工具插件
 download_github_release "zdm65477730/EdiZon-Overlay" "*.zip" "EdiZon.zip" "./" "EdiZon" || { echo "::error::❌ EdiZon failed"; exit 1; }
@@ -383,6 +382,7 @@ download_github_release "averne/MasterVolume" "*.zip" "MasterVolume.zip" "./" "M
 download_github_release "masagrator/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
 download_github_release "TOM-BadEN/KeyX" "KeyX-*-CN.zip" "KeyX.zip" "./" "KeyX" || { echo "::error::❌ KeyX failed"; exit 1; }
 download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/在线下载金手指-2.2.5%20星落%20酸菜鱼%20HAHA.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5 星落 酸菜鱼 HAHA" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "酸菜鱼工具箱 (葡萄糖酸菜鱼)" || { echo "::error::❌ SCY-Toolbox direct download failed"; exit 1; }
 
 download_direct_file "https://github.com/masagrator/FPSLocker-Warehouse/archive/refs/heads/v4.zip" "FPSLocker-Warehouse-4.zip" "./" "FPSLocker-Warehouse" || { echo "::error::❌ FPSLocker-Warehouse direct download failed"; exit 1; }
 # 解压并清理 FPSLocker-Warehouse (全解压到根目录并清理)
@@ -404,7 +404,7 @@ fi
 # ======================
 # 下載繁體中文翻譯 及 配置文件
 # ======================
-download_github_release "SwitchScriptTW/SwitchScriptPlugins" "autobuild.zip" "autobuild.zip" "./" "" || { echo "::error::❌ SwitchPluginsLang processing failed"; exit 1; }
+download_github_release "SwitchScriptTW/SwitchScriptPlugins" "autobuild.zip" "autobuild.zip" "./" "繁體中文翻譯" || { echo "::error::❌ SwitchPluginsLang processing failed"; exit 1; }
 
 ### Rename hekate_ctcaer_*.bin to payload.bin
 found_files=$(find . -name "hekate_ctcaer_*.bin" -print -quit)
