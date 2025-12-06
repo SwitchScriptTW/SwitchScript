@@ -381,12 +381,12 @@ download_github_release "masagrator/ReverseNX-RT" "ReverseNX-RT-ovl.ovl" "Revers
 #download_github_release "zdm65477730/Fizeau" "*.zip" "Fizeau.zip" "./" "Fizeau" || { echo "::error::❌ Fizeau failed"; exit 1; }
 download_github_release "averne/MasterVolume" "*.zip" "MasterVolume.zip" "./" "MasterVolume" || { echo "::error::❌ MasterVolume failed"; exit 1; }
 #download_github_release "masagrator/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
-download_github_release "SwitchScriptTW/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor direct download failed"; exit 1; }
+download_github_release "SwitchScriptTW/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor direct download failed"; exit 1; }
 download_github_release "TOM-BadEN/KeyX" "KeyX-*-CN.zip" "KeyX.zip" "./" "KeyX" || { echo "::error::❌ KeyX failed"; exit 1; }
-download_github_release "SwitchScriptTW/Edizon-DL" "Edizon-DL.zip" "./switch/" "Edizon-DL" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
-download_github_release "SwitchScriptTW/SCY-Toolbox" "SCY-Toolbox.zip" "./" "SCY-Toolbox" || { echo "::error::❌ SCY-Toolbox direct download failed"; exit 1; }
-download_github_release "SwitchScriptTW/linkalho" "linkalho.zip" "./" "linkalho" || { echo "::error::❌ linkalho direct download failed"; exit 1; }
-download_github_release "SwitchScriptTW/More" "More.zip" "./switch/.packages/" "More" || { echo "::error::❌ More direct download failed"; exit 1; }
+download_github_release "SwitchScriptTW/Edizon-DL" "Edizon-DL.zip" "Edizon-DL.zip" "./switch/" "Edizon-DL" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
+download_github_release "SwitchScriptTW/SCY-Toolbox" "SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "SCY-Toolbox" || { echo "::error::❌ SCY-Toolbox direct download failed"; exit 1; }
+download_github_release "SwitchScriptTW/linkalho" "linkalho.zip" "linkalho.zip" "./" "linkalho" || { echo "::error::❌ linkalho direct download failed"; exit 1; }
+download_github_release "SwitchScriptTW/More" "More.zip" "More.zip" "./switch/.packages/" "More" || { echo "::error::❌ More direct download failed"; exit 1; }
 
 download_direct_file "https://github.com/masagrator/FPSLocker-Warehouse/archive/refs/heads/v4.zip" "FPSLocker-Warehouse-4.zip" "./" "FPSLocker-Warehouse" || { echo "::error::❌ FPSLocker-Warehouse direct download failed"; exit 1; }
 # 解压并清理 FPSLocker-Warehouse (全解压到根目录并清理)
