@@ -15,6 +15,7 @@ permissions:
   contents: write
 
 env:
+  GITHUB_TOKEN: ${{ github.token }}
   SCRIPT_SH: switchScript.sh
   TZ: Asia/Shanghai
 
