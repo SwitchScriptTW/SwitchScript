@@ -368,6 +368,7 @@ download_github_release "halop/OC_Toolkit_SC_EOS" "sys-clk.zip" "sys-clk.zip" ".
 download_github_release "ppkantorski/Ultrahand-Overlay" "ovlmenu.ovl" "ovlmenu.ovl" "./switch/.overlays" "Ultrahand" || { echo "::error::❌ Ultrahand menu failed"; exit 1; }
 download_github_release "ppkantorski/Ultrahand-Overlay" "lang.zip" "lang.zip" "./config/ultrahand/lang" "Ultrahand Lang" || { echo "::error::❌ Language pack failed"; exit 1; }
 download_github_release "zdm65477730/sys-patch" "*.zip" "sys-patch.zip" "./" "Sys-Patch" || { echo "::error::❌ Sys-Patch processing failed"; exit 1; }
+download_github_release "SwitchScriptTW/SCY-Toolbox" "SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "酸菜鱼工具箱" || { echo "::error::❌ SCY-Toolbox processing failed"; exit 1; }
 
 # 3. 系统工具插件
 download_github_release "zdm65477730/EdiZon-Overlay" "*.zip" "EdiZon.zip" "./" "EdiZon" || { echo "::error::❌ EdiZon failed"; exit 1; }
@@ -405,10 +406,6 @@ fi
 # ======================
 download_github_release "SwitchScriptTW/SwitchScriptPlugins" "autobuild.zip" "autobuild.zip" "./" "" || { echo "::error::❌ SwitchPluginsLang processing failed"; exit 1; }
 
-# 4. hbmenu 替換 sphaira
-mv ./hbmenu.nro ./switch/hbmenu.nro
-cp ./switch/sphaira/sphaira.nro ./hbmenu.nro
-
 ### Rename hekate_ctcaer_*.bin to payload.bin
 found_files=$(find . -name "hekate_ctcaer_*.bin" -print -quit)
 if [ -n "$found_files" ]; then
@@ -428,6 +425,8 @@ cat > ./atmosphere/hosts/emummc.txt << 'ENDOFFILE'
 127.0.0.1 *nintendo.*
 127.0.0.1 *nintendo-europe.com
 127.0.0.1 *nintendoswitch.*
+127.0.0.1 *nintendods.cz
+127.0.0.1 *nintendowifi.net
 127.0.0.1 ads.doubleclick.net
 127.0.0.1 s.ytimg.com
 127.0.0.1 ad.youtube.com
