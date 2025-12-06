@@ -57,6 +57,7 @@ download_github_release() {
 
     # 单次 API 请求，分离响应头和 JSON 体
     local response=$(curl -sL -i \
+        -H "Authorization: token $GITHUB_TOKEN" \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "https://api.github.com/repos/$repo/releases")
