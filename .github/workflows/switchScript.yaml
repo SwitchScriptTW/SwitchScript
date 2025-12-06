@@ -40,7 +40,8 @@ jobs:
         echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
-        zip -rq SwitchSD.zip SwitchSD
+        cd SwitchSD
+        zip -rq ../SwitchSD.zip .
 
     - name: Read description.txt
       id: description
