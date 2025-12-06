@@ -410,6 +410,10 @@ fi
 # ======================
 download_github_release "SwitchScriptTW/SwitchScriptPlugins" "autobuild.zip" "autobuild.zip" "./" "繁體中文翻譯" || { echo "::error::❌ SwitchPluginsLang processing failed"; exit 1; }
 
+# 4. hbmenu 替換 sphaira
+mv ./hbmenu.nro ./switch/hbmenu.nro
+cp ./switch/sphaira/sphaira.nro ./hbmenu.nro
+
 ### Rename hekate_ctcaer_*.bin to payload.bin
 found_files=$(find . -name "hekate_ctcaer_*.bin" -print -quit)
 if [ -n "$found_files" ]; then
