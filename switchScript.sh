@@ -380,13 +380,13 @@ download_github_release "masagrator/ReverseNX-RT" "ReverseNX-RT-ovl.ovl" "Revers
 #download_github_release "zdm65477730/Fizeau" "*.zip" "Fizeau.zip" "./" "Fizeau" || { echo "::error::❌ Fizeau failed"; exit 1; }
 download_github_release "averne/MasterVolume" "*.zip" "MasterVolume.zip" "./" "MasterVolume" || { echo "::error::❌ MasterVolume failed"; exit 1; }
 #download_github_release "masagrator/Status-Monitor-Overlay" "Status-Monitor-Overlay.zip" "Status-Monitor-Overlay.zip" "./" "Status-Monitor" || { echo "::error::❌ Status-Monitor failed"; exit 1; }
-download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/StatusMonitor.zip" "StatusMonitor.zip" "./" "状态监控 1.3.2+R1丨完全汉化丨正式版（翻译 南宫镜）" || { echo "::error::❌ StatusMonitor direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/raw/refs/heads/main/plugins/StatusMonitor.zip" "StatusMonitor.zip" "./" "状态监控 1.3.2+R1丨完全汉化丨正式版（翻译 南宫镜）" || { echo "::error::❌ StatusMonitor direct download failed"; exit 1; }
 download_github_release "TOM-BadEN/KeyX" "KeyX-*-CN.zip" "KeyX.zip" "./" "KeyX" || { echo "::error::❌ KeyX failed"; exit 1; }
-download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/Edizon-DL.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5（星落 酸菜鱼 HAHA）" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
-download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "酸菜鱼工具箱 (葡萄糖酸菜鱼)" || { echo "::error::❌ SCY-Toolbox direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/raw/refs/heads/main/plugins/Edizon-DL.zip" "Edizon-DL.zip" "./switch/" "在线下载金手指-2.2.5（星落 酸菜鱼 HAHA）" || { echo "::error::❌ Edizon-DL direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/raw/refs/heads/main/plugins/SCY-Toolbox.zip" "SCY-Toolbox.zip" "./" "酸菜鱼工具箱 (葡萄糖酸菜鱼)" || { echo "::error::❌ SCY-Toolbox direct download failed"; exit 1; }
 # impeeza/linkalho
-download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/blob/main/plugins/linkalho.zip" "linkalho.zip" "./" "離線關聯賬號 2.0.2_CHT（翻译 南宫镜）" || { echo "::error::❌ linkalho direct download failed"; exit 1; }
-download_direct_file "https://github.com/SwitchScriptTW/More/blob/main/Hant/hahappify/xlcj/More.zip" "More.zip" "./switch/.packages/" "More（hahappify）" || { echo "::error::❌ More direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/SwitchPlugins/raw/refs/heads/main/plugins/linkalho.zip" "linkalho.zip" "./" "離線關聯賬號 2.0.2_CHT（翻译 南宫镜）" || { echo "::error::❌ linkalho direct download failed"; exit 1; }
+download_direct_file "https://github.com/SwitchScriptTW/raw/refs/heads/main/Hant/hahappify/xlcj/More.zip" "More.zip" "./switch/.packages/" "More（hahappify）" || { echo "::error::❌ More direct download failed"; exit 1; }
 
 download_direct_file "https://github.com/masagrator/FPSLocker-Warehouse/archive/refs/heads/v4.zip" "FPSLocker-Warehouse-4.zip" "./" "FPSLocker-Warehouse" || { echo "::error::❌ FPSLocker-Warehouse direct download failed"; exit 1; }
 # 解压并清理 FPSLocker-Warehouse (全解压到根目录并清理)
